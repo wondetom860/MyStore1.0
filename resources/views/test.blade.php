@@ -1,40 +1,35 @@
 <!doctype html>
 <html lang="en">
-
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
     <title>Online Store</title>
     <style>
-        .bg-secondary {
+        .bg-secondary{
             background-color: #2C3E50 !important;
         }
-
-        .copyright {
+        .copyright{
             background-color: #1A252F;
         }
-
-        .bg-primary {
+        .bg-primary{
             background-color: #1ABC9C !important;
         }
 
-        nav {
+        nav{
             font-weight: 700;
         }
-
-        .img-card {
+        .img-card{
             height: 18vw;
             object-fit: cover;
         }
     </style>
 </head>
-
 <body>
     <!-- header -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-secondary py-4">
         <div class="container">
-            <a class="navbar-brand" href="#">Online Store - Products</a>
+            <a class="navbar-brand" href="#">Online Store</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -51,7 +46,7 @@
     </nav>
     <header class="masthead text-white text-center py-4 bg-primary" style="background-color: #1ABC9C;">
         <div class="container d-flex align-items-center flex-column" style="background-color: transparent;">
-            <h2>Online Store V1.0 powered by laravel : Products page </h2>
+            <h2>Online Store test laravel</h2>
         </div>
     </header>
     <!-- header -->
@@ -60,5 +55,4 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous">
     </script>
 </body>
-
 </html>

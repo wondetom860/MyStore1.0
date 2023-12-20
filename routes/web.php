@@ -26,14 +26,10 @@ use Illuminate\Support\Facades\Route;
 // });
 
 
-// Route::get('/products', function () {
-//     return view('products');
-// });
-
-// Route::get('/posts',"App\Http\Controllers\PostsController@index");
-
-// Route::get('/posts/{id}',"App\Http\Controllers\PostsController@show");
-
-Route::resource("/posts","App\Http\Controllers\PostsController");
-Route::resource("/test","App\Http\Controllers\TestController");
+Route::get('/products', function () {
+    return view('products');
+});
+Route::get('/test', function () {
+    return view('test');
+});
 

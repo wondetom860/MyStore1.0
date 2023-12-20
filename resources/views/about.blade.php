@@ -43,6 +43,7 @@
                     <a class="nav-link active" href="/products">Products</a>
                     <a class="nav-link active" href="/cart">Cart</a>
                     <a class="nav-link active" href="/about">About</a>
+                    <a class="nav-link active" href="/test">test</a>
                 </div>
             </div>
         </div>
