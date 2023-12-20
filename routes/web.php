@@ -29,4 +29,7 @@ Route::get('/cart', function () {
 Route::get('/products', function () {
     return view('products');
 });
+Route::get('/test', function () {
+    return view('test');
+});
 
