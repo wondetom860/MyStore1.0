@@ -13,20 +13,27 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('index');
-});
+// Route::get('/', function () {
+//     return view('index');
+// });
 
-Route::get('/about', function () {
-    return view('about');
-});
+// Route::get('/about', function () {
+//     return view('about');
+// });
 
-Route::get('/cart', function () {
-    return view('cart');
-});
+// Route::get('/cart', function () {
+//     return view('cart');
+// });
 
 
-Route::get('/products', function () {
-    return view('products');
-});
+// Route::get('/products', function () {
+//     return view('products');
+// });
+
+// Route::get('/posts',"App\Http\Controllers\PostsController@index");
+
+// Route::get('/posts/{id}',"App\Http\Controllers\PostsController@show");
+
+Route::resource("/posts","App\Http\Controllers\PostsController");
+Route::resource("/test","App\Http\Controllers\TestController");
 
