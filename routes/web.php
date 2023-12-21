@@ -13,13 +13,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::get('/', function () {
-//     return view('index');
-// });
+Route::get('/', function () {
+    return view('index');
+});
 
-// Route::get('/about', function () {
-//     return view('about');
-// });
+Route::get('/about', function () {
+    return redirect('/posts');
+});
+Route::get('/test', function () {
+    return redirect('/test');
+});
 
 // Route::get('/cart', function () {
 //     return view('cart');
@@ -32,4 +35,11 @@ Route::get('/products', function () {
 Route::get('/test', function () {
     return view('test');
 });
+
+
+Route::resource('/test','App\Http\Controllers\TestController');
+Route::resource('/posts','App\Http\Controllers\PostsController');
+Route::get('/posts.about/{name}','App\Http\Controllers\PostsController@about');
+Route::get('/pages/check/{view}','\App\Http\Controllers\PagesController@checkIfExists');
+
 

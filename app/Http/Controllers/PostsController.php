@@ -7,6 +7,29 @@ use Illuminate\Http\Response;
 
 class PostsController extends Controller
 {
+    public $contacts = [
+        [
+            "name"=> "Wonde",
+            "propic" => 'profile-picture.jpeg',
+            'date_of_birth' => 18987676,
+            'company' => 'ETDU',
+            'role'=> 'Programmer',
+        ],
+        [
+            "name"=> "Belete",
+            "propic" => 'pr1.jpg',
+            'date_of_birth' => 19675463,
+            'company' => 'ETDU',
+            'role'=> 'Junior Programmer',
+        ],
+        [
+            "name"=> "Ahmed",
+            "propic" => 'team-image-2.jpeg',
+            'date_of_birth' => 17895478,
+            'company' => 'ETDU',
+            'role'=> 'Data Analyst',
+        ]
+    ];
     /**
      * Display a listing of the resource.
      *
@@ -14,8 +37,22 @@ class PostsController extends Controller
      */
     public function index()
     {
-        return Response::view("about");
+        return view("posts.index",['contacts'=>$this->contacts]);
         // return "This is text frpm posts index page";
+    }
+
+    public function about($name){
+        return view('posts.about',['profileData'=>$this->getProfileData($name)]);
+    }
+
+    private function getProfileData($name){
+        $profileData = NULL;
+        foreach($this->contacts as $contact){
+            if(isset($contact['name']) && $contact['name'] == $name){
+                $profileData = $contact;
+            }
+        }
+        return $profileData;
     }
 
     /**

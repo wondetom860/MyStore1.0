@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-// use Illuminate\Http\Response;
+use Illuminate\Support\Facades\View;
 
-class TestController extends Controller
+class PagesController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,14 +14,16 @@ class TestController extends Controller
      */
     public function index()
     {
-        return view("test/index");
+        //
     }
 
-    public function image()
+    public function checkIfExists($view)
     {
-        return response()->file(
-            public_path("/images/profile-picture.jpeg")
-        );
+        if (View::exists($view)) {
+            return "View " . $view . " exists";
+        } else {
+            return "View " . $view . " exists";
+        }
     }
 
     /**
@@ -53,7 +55,7 @@ class TestController extends Controller
      */
     public function show($id)
     {
-        return "Showing Test item with ID:{$id}";
+        //
     }
 
     /**
