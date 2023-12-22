@@ -1,4 +1,4 @@
-@extends('layouts.mystore')
+@extends('layout.mystore')
 @section('title', $title)
 @section('subtitle', $subtitle)
 @section('content')

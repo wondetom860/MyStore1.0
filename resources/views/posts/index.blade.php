@@ -63,14 +63,14 @@
         <div class="row">
             <?php foreach ($contacts as $contact) : ?>
                 <div class="col-md-3 col-lg-3 col-sm-12">
-                    <div class="accordion" id="accordionExample">
+                    <div class="accordion" id="accordionExample<?= $contact['date_of_birth'] ?>">
                         <div class="accordion-item">
                             <h2 class="accordion-header">
                                 <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne<?= $contact['date_of_birth'] ?>" aria-expanded="true" aria-controls="collapseOne">
                                     About <?= $contact["name"] ?>
                                 </button>
                             </h2>
-                            <div id="collapseOne<?= $contact['date_of_birth'] ?>" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                            <div id="collapseOne<?= $contact['date_of_birth'] ?>" class="accordion-show show" data-bs-parent="#accordionExample">
                                 <div class="accordion-body">
                                     <div class="card text-left p-2">
                                         <a href="posts.about/<?= $contact['name'] ?>">
