@@ -42,6 +42,17 @@ Route::get('/home/update', App\Http\Controllers\HomeController::class . '@update
 Route::get('/products', App\Http\Controllers\ProductController::class . '@index')->name('products.index');
 Route::get('/products/{id}', App\Http\Controllers\ProductController::class . '@show')->name('products.show');
 
+
+Route::get('/admin', App\Http\Controllers\Admin\AdminHomeController::class . '@index')->name('admin.home.index');
+Route::get('/admin/products', App\Http\Controllers\Admin\AdminProductController::class . '@index')->name('admin.products.index');
+Route::get('/admin/products/create', App\Http\Controllers\Admin\AdminProductController::class . '@create')->name('admin.products.create');
+Route::post('/admin/products/store', App\Http\Controllers\Admin\AdminProductController::class . '@store')->name('admin.products.store');
+Route::get('/admin/products/show/{id}', App\Http\Controllers\Admin\AdminProductController::class . '@show')->name('admin.products.show');
+Route::post('/admin/products/{id}/delete', App\Http\Controllers\Admin\AdminProductController::class . '@delete')->name('admin.product.delete');
+Route::get('/admin/products/{id}/edit', App\Http\Controllers\Admin\AdminProductController::class . '@edit')->name('admin.product.edit');
+Route::put('/admin/products/{id}/update', App\Http\Controllers\Admin\AdminProductController::class . '@update')->name('admin.product.update');
+
+
 Route::get('/post', App\Http\Controllers\PostsController::class . '@index')->name('post.list');
 Route::get('/post/insert', App\Http\Controllers\PostsController::class . '@insert')->name('post.insert');
 Route::get('/post/select', App\Http\Controllers\PostsController::class . '@select')->name('post.show');

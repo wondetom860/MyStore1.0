@@ -1,4 +1,4 @@
-@extends('layout.mystore')
+@extends('layout.admin')
 @section('title', 'Product Detail')
 @section('subtitle', $product->name)
 @section('content')
@@ -8,8 +8,8 @@
         </h3>
         <div class="card mb-3">
             <div class="row g-0">
-                <div class="col-md-4">
-                    <img src="{{ asset('/storage' . '/' . $product->image) }}" class="img-fluid rounded-start">
+                <div class="col-md-4 p-2">
+                    <img src="{{ asset('/storage' . '/' . $product->image) }}" class="img-fluid rounded-start" style="width: 350px; height:auto">
                 </div>
                 <div class="col-md-8">
                     <div class="card-body">
