@@ -2,57 +2,85 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 
 class PostsController extends Controller
 {
     public $contacts = [
         [
-            "name"=> "Wonde",
+            "name" => "Wonde",
             "propic" => 'profile-picture.jpeg',
             'date_of_birth' => 18987676,
             'company' => 'ETDU',
-            'role'=> 'Programmer',
+            'role' => 'Programmer',
         ],
         [
-            "name"=> "Belete",
+            "name" => "Belete",
             "propic" => 'pr1.jpg',
             'date_of_birth' => 19675463,
             'company' => 'ETDU',
-            'role'=> 'Junior Programmer',
+            'role' => 'Junior Programmer',
         ],
         [
-            "name"=> "Ahmed",
+            "name" => "Ahmed",
             "propic" => 'team-image-2.jpeg',
             'date_of_birth' => 17895478,
             'company' => 'ETDU',
-            'role'=> 'Data Analyst',
+            'role' => 'Data Analyst',
         ]
     ];
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
-        return view("posts.index",['contacts'=>$this->contacts]);
-        // return "This is text frpm posts index page";
+        $posts = Post::all();
+        return view('posts.posts')->with('contacts', $posts);
     }
 
-    public function about($name){
-        return view('posts.about',['profileData'=>$this->getProfileData($name)]);
+    public function about($name)
+    {
+        return view('posts.about', ['profileData' => $this->getProfileData($name)]);
     }
 
-    private function getProfileData($name){
+    private function getProfileData($name)
+    {
         $profileData = NULL;
-        foreach($this->contacts as $contact){
-            if(isset($contact['name']) && $contact['name'] == $name){
+        foreach ($this->contacts as $contact) {
+            if (isset($contact['name']) && $contact['name'] == $name) {
                 $profileData = $contact;
             }
         }
         return $profileData;
+    }
+
+    public function find($id)
+    {
+
+        if (($post = Post::find($id)) !== NULL) {
+            return view('posts.post')->with('post', $post);
+        } else {
+            return view('error')->with('message', 'Such record not foud.');
+        }
+    }
+
+    public function restore($id){
+        $post = Post::withTrashed()->where('id',$id)->restore();
+
+        return view('posts.posts')->with('contacts', Post::all());
+    }
+
+    public function readSoftDeletes(){
+        return view('posts.posts', ['contacts'=> Post::onlyTrashed()->get()]);
+    }
+
+    public function softDelete($id){
+        if (Post::where('id',$id)->delete()) {
+            return view('posts.posts')->with('contacts', Post::all());
+        } else {
+            return view('error')->with('message', 'Soft.Delete de Record failed.');
+        }
     }
 
     /**
@@ -65,13 +93,35 @@ class PostsController extends Controller
         //
     }
 
+    public function insert()
+    {
+        $model = new Post;
+        // str_pad
+        $model->title = 'New Post_:_' . str_pad((string)rand(99, 10000), 4, '0', STR_PAD_LEFT);
+        $model->body = "Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of \"de Finibus Bonorum et Malorum\" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum";
+        // Auth::user()->id;
+        $model->created_by = 11;
+        $model->sealData();
+        if ($model->save()) {
+            return redirect()->route("post.list")->with("success", "Record inserted succesfully");
+        } else {
+            return redirect()->route("error")->with("message", 'Record inserting failed.');
+        }
+    }
+
+    public function select()
+    {
+        $posts = Post::all();
+        return view('posts.posts')->with('contacts', $posts);
+    }
+
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)// create equivalent
+    public function store(Request $request) // create equivalent
     {
         //
     }
@@ -82,9 +132,13 @@ class PostsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)//view equivalent
+    public function show($id) //view equivalent
     {
-        return "Showing post with ID:{$id}";
+        if (($post = Post::find($id)) !== NULL) {
+            return view('posts.post')->with('post', $post);
+        } else {
+            return view('error')->with('message', 'Such record not foud.');
+        }
     }
 
     /**
@@ -93,7 +147,7 @@ class PostsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)//update equivalent
+    public function edit($id) //update equivalent
     {
         //
     }
@@ -116,7 +170,7 @@ class PostsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)//delete equivalent
+    public function destroy($id) //delete equivalent
     {
         //
     }

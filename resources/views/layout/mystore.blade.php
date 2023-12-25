@@ -38,6 +38,7 @@
     <div class="container-fluid my-4" style="margin-bottom: 15%">
         @yield('content')
     </div>
+    <div style="clear: both"></div>
     {{-- footer starts here --}}
     <div class=" py-4 text-center text-white footer" style="background-color: #1A252F;">
         <div class="container">

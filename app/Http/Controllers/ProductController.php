@@ -2,50 +2,56 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-    public static $products = [
-        [
-            'id' => 1,
-            'name' => 'Apple Phone',
-            'price' => 12,
-            'description' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda, quae modi. Quisquam, ab laudantium! Magnam repudiandae sequi sit at ipsa, omnis cumque vero doloremque iure quibusdam, fuga, molestiae totam alias.|', 'image' => 'game.png'
-        ],
-        [
-            'id' => 2,
-            'name' => 'Mac Air',
-            'price' => 33,
-            'description' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda, quae modi. Quisquam, ab laudantium! Magnam repudiandae sequi sit at ipsa, omnis cumque vero doloremque iure quibusdam, fuga, molestiae totam alias.|',
-            'image' => 'submarine.png'
-        ],
-        [
-            'id' => 3,
-            'name' => 'RealMe Phone',
-            'price' => 41,
-            'description' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda, quae modi. Quisquam, ab laudantium! Magnam repudiandae sequi sit at ipsa, omnis cumque vero doloremque iure quibusdam, fuga, molestiae totam alias.|',
-            'image' => 'safe.png'
-        ],
-        [
-            'id' => 4,
-            'name' => 'Alcatel AC',
-            'price' => 90,
-            'description' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda, quae modi. Quisquam, ab laudantium! Magnam repudiandae sequi sit at ipsa, omnis cumque vero doloremque iure quibusdam, fuga, molestiae totam alias.|',
-            'image' => 'column-2.jpg'
-        ],
-    ];
-    public static function find($id)
-    { // this function should throw NotFoundException
-        $item = NULL;
-        foreach (self::$products as $product) {
-            if ($product['id'] == $id) {
-                $item = $product;
-            }
-        }
+    // public static $products = [
+    //     [
+    //         'id' => 1,
+    //         'name' => 'Apple Phone',
+    //         'price' => 12,
+    //         'description' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda, quae modi. Quisquam, ab laudantium! Magnam repudiandae sequi sit at ipsa, omnis cumque vero doloremque iure quibusdam, fuga, molestiae totam alias.|', 'image' => 'game.png'
+    //     ],
+    //     [
+    //         'id' => 2,
+    //         'name' => 'Mac Air',
+    //         'price' => 33,
+    //         'description' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda, quae modi. Quisquam, ab laudantium! Magnam repudiandae sequi sit at ipsa, omnis cumque vero doloremque iure quibusdam, fuga, molestiae totam alias.|',
+    //         'image' => 'submarine.png'
+    //     ],
+    //     [
+    //         'id' => 3,
+    //         'name' => 'RealMe Phone',
+    //         'price' => 41,
+    //         'description' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda, quae modi. Quisquam, ab laudantium! Magnam repudiandae sequi sit at ipsa, omnis cumque vero doloremque iure quibusdam, fuga, molestiae totam alias.|',
+    //         'image' => 'safe.png'
+    //     ],
+    //     [
+    //         'id' => 4,
+    //         'name' => 'Alcatel AC',
+    //         'price' => 90,
+    //         'description' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda, quae modi. Quisquam, ab laudantium! Magnam repudiandae sequi sit at ipsa, omnis cumque vero doloremque iure quibusdam, fuga, molestiae totam alias.|',
+    //         'image' => 'column-2.jpg'
+    //     ],
+    // ];
 
-        return $item;
+    public function insert(){
+        $model = new Product();
+        
     }
+    // public static function find($id)
+    // { // this function should throw NotFoundException
+    //     $item = NULL;
+    //     foreach (self::$products as $product) {
+    //         if ($product['id'] == $id) {
+    //             $item = $product;
+    //         }
+    //     }
+
+    //     return $item;
+    // }
     /**
      * Display a listing of the resource.
      *
@@ -53,7 +59,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        return view('product.index')->with('products', ProductController::$products);
+        return view('product.index')->with('products', Product::all());
     }
 
     /**
@@ -85,7 +91,7 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        $product = ProductController::find($id);
+        $product = Product::find($id);//findOrFail
         if (is_null($product)) {
             return view('error')
                 ->with('title', 'Item not found')

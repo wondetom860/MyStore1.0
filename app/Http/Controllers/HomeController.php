@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
@@ -63,5 +64,33 @@ class HomeController extends Controller
     public function addNewMenu()
     {
         return view('home.testMenu');
+    }
+
+    public function select(){
+        $records = DB::select('select * from posts');
+        return view('home.posts')->with('contacts', $records);
+    }
+
+    public function insert()
+    {
+        DB::insert('insert into posts(title,body,created_by,sig_data) values(?,?,?,?)', [
+            'Senior Programmer',
+            'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quam dolor maxime ipsa atque voluptatem est, ut ad quae aliquam odit error, repellat nam inventore veritatis excepturi fuga reiciendis in nobis!',
+            3,
+            md5(serialize((object)[
+                'Senior Programmer',
+                'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quam dolor maxime ipsa atque voluptatem est, ut ad quae aliquam odit error, repellat nam inventore veritatis excepturi fuga reiciendis in nobis!',
+                3
+            ])),
+        ]);
+    }
+
+    public function update(){
+        $sig_data = md5(serialize((object)[
+            'Web Developer',
+            'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quam dolor maxime ipsa atque voluptatem est, ut ad quae aliquam odit error, repellat nam inventore veritatis excepturi fuga reiciendis in nobis!',
+            3
+        ]));
+        DB::update('update posts set sig_data="'.$sig_data.'" where title="Web Developer"');
     }
 }

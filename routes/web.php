@@ -33,10 +33,23 @@ Route::get('/error/{message}', function ($message) {
 //     return view('cart');
 // });
 
+// 
+Route::get('/home/insert', App\Http\Controllers\HomeController::class . '@insert')->name('sample.insert');
+Route::get('/home/select', App\Http\Controllers\HomeController::class . '@select')->name('sample.select');
+Route::get('/home/update', App\Http\Controllers\HomeController::class . '@update')->name('sample.edit');
 
 // product controller-view routing
 Route::get('/products', App\Http\Controllers\ProductController::class . '@index')->name('products.index');
 Route::get('/products/{id}', App\Http\Controllers\ProductController::class . '@show')->name('products.show');
+
+Route::get('/post', App\Http\Controllers\PostsController::class . '@index')->name('post.list');
+Route::get('/post/insert', App\Http\Controllers\PostsController::class . '@insert')->name('post.insert');
+Route::get('/post/select', App\Http\Controllers\PostsController::class . '@select')->name('post.show');
+Route::get('/post/find/{id}', App\Http\Controllers\PostsController::class . '@show')->name('post.view');
+Route::get('/post/soft_delete/{id}', App\Http\Controllers\PostsController::class . '@softDelete')->name('post.soft_delete');
+Route::get('/post/read_soft_deletes', App\Http\Controllers\PostsController::class . '@readSoftDeletes')->name('post.read_soft_delets');
+Route::get('/post/restore/{id}', App\Http\Controllers\PostsController::class . '@restore')->name('post.restore');
+// Route::get('/products/{id}', App\Http\Controllers\ProductController::class . '@show')->name('products.show');
 
 // cart controller-view routing
 Route::get('/cart', App\Http\Controllers\CartController::class . '@index')->name('cart.index');
