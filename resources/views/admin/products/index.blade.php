@@ -25,7 +25,7 @@
                             <tr>
                                 <td>{{ $item->id }}</td>
 
-                                <td style="text-align: center">
+                                <td style="text-align: center" title="{{ $item->description }}">
                                     <img src="{{ asset('/storage' . '/' . $item['image']) }}" alt="" srcset=""
                                         style="width:100px; height:100px;">
                                 </td>

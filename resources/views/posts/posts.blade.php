@@ -32,8 +32,9 @@
                     <div class="card text-center m-2 {{ $bg }}">
                         <a href="{{ route('post.view', ['id' => $post->id]) }}">
                             <h3>{{ $post->id }}.{{ $post->title }}</h3>
+                            <img class="img-fluid rounded" src="{{ asset($post->postImage?$post->postImage->url : '/images/no-image.jpeg') }}" alt="Post Image" srcset="" >
                         </a>
-                        <?= $delBut.$restoreBut?>
+                        <?= $delBut . $restoreBut ?>
                         <div class="card-body">
                             <p style="text-align: left"> <i> {{ $post->body }} </i> </p>
                         </div>

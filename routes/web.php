@@ -55,6 +55,7 @@ Route::put('/admin/products/{id}/update', App\Http\Controllers\Admin\AdminProduc
 
 Route::get('/post', App\Http\Controllers\PostsController::class . '@index')->name('post.list');
 Route::get('/post/insert', App\Http\Controllers\PostsController::class . '@insert')->name('post.insert');
+Route::get('/post/insert_with_image', App\Http\Controllers\PostsController::class . '@insertPostWithPostImage')->name('post.insert_with_image');
 Route::get('/post/select', App\Http\Controllers\PostsController::class . '@select')->name('post.show');
 Route::get('/post/find/{id}', App\Http\Controllers\PostsController::class . '@show')->name('post.view');
 Route::get('/post/soft_delete/{id}', App\Http\Controllers\PostsController::class . '@softDelete')->name('post.soft_delete');

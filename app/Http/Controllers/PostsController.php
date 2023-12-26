@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Models\PostImage;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
@@ -63,6 +64,21 @@ class PostsController extends Controller
         } else {
             return view('error')->with('message', 'Such record not foud.');
         }
+    }
+    public function insertPostWithPostImage(){
+        $post = new Post();
+        $post->title = 'New Person 2';
+        $post->body = 'QA Analyst 2';
+        $post->created_by = 7;
+        $post->sealData();
+        $postImage = new PostImage(['name' => 'New Person Image','url' => '/images/postImage/rer.jpg']);
+        $post->save();
+        $post->postImage()->save($postImage);
+        $post->save();
+    }
+
+    public function getPostImage($postId){
+        return Post::find($postId)->postImage;
     }
 
     public function restore($id){
