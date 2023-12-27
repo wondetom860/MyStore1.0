@@ -48,7 +48,7 @@ class AdminProductController extends Controller
         $product->image = ("image");
         $product->save();
         if ($request->hasFile('image')) {
-            $imageName = $product->id .'_'. $request->file('image')->getFilename()."_".date('Y_m_d_h_i'). "." . $request->file('image')->extension();
+            $imageName = $product->id . '_' . $request->file('image')->getFilename() . "_" . date('Y_m_d_h_i') . "." . $request->file('image')->extension();
             Storage::disk('public')->put($imageName, file_get_contents($request->file('image')->getRealPath()));
             $product->image = $imageName;
             $product->save();
@@ -91,12 +91,6 @@ class AdminProductController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // $request->validate([
-        //     'name' => "required|max:255",
-        //     'description' => "required",
-        //     'price' => "required|numeric|gt:0",
-        //     'image' => "image",
-        // ]);
         Product::validate($request);
         $product = Product::findOrFail($id);
         $product->name = $request->name;
@@ -105,7 +99,7 @@ class AdminProductController extends Controller
         $product->image = ("image");
         // $product->save();
         if ($request->hasFile('image')) {
-            $imageName = $product->id .'_'. $request->file('image')->getFilename()."_".date('Y_m_d_h_i'). "." . $request->file('image')->extension();
+            $imageName = $product->id . '_' . $request->file('image')->getFilename() . "_" . date('Y_m_d_h_i') . "." . $request->file('image')->extension();
             Storage::disk('public')->put($imageName, file_get_contents($request->file('image')->getRealPath()));
             $product->image = $imageName;
         }

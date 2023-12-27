@@ -25,17 +25,6 @@
                     <a class="nav-link active" href="/products">Products</a>
                     <a class="nav-link active" href="/cart">Cart</a>
                     <a class="nav-link active" href="/about">About</a>
-                    <div class="vr bg-white mx-2 d-none d-lg-block"></div>
-                    @guest
-                        <a href="{{ route('login') }}" class="nav-link active">Login</a>
-                        <a href="{{ route('register') }}" class="nav-link active">Register</a>
-                    @else
-                        <form action="{{ route('logout') }}" id="logout" method="POST">
-                            <a role="button" class="nav-link active"
-                                onclick="document.getElementById('logout').submit();">Logout</a>
-                            @csrf
-                        </form>
-                    @endguest
                 </div>
             </div>
         </div>
@@ -46,9 +35,9 @@
         </div>
     </header>
     <!-- header -->
-    <main class="py-4">
+    <div class="container-fluid my-4" style="margin-bottom: 15%">
         @yield('content')
-    </main>
+    </div>
     <br><br><br>
     <div style="clear: both"></div>
     {{-- footer starts here --}}

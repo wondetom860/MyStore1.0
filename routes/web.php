@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -42,16 +43,18 @@ Route::get('/home/update', App\Http\Controllers\HomeController::class . '@update
 Route::get('/products', App\Http\Controllers\ProductController::class . '@index')->name('products.index');
 Route::get('/products/{id}', App\Http\Controllers\ProductController::class . '@show')->name('products.show');
 
-
-Route::get('/admin', App\Http\Controllers\Admin\AdminHomeController::class . '@index')->name('admin.home.index');
-Route::get('/admin/products', App\Http\Controllers\Admin\AdminProductController::class . '@index')->name('admin.products.index');
-Route::get('/admin/products/create', App\Http\Controllers\Admin\AdminProductController::class . '@create')->name('admin.products.create');
-Route::post('/admin/products/store', App\Http\Controllers\Admin\AdminProductController::class . '@store')->name('admin.products.store');
-Route::get('/admin/products/show/{id}', App\Http\Controllers\Admin\AdminProductController::class . '@show')->name('admin.products.show');
-Route::post('/admin/products/{id}/delete', App\Http\Controllers\Admin\AdminProductController::class . '@delete')->name('admin.product.delete');
-Route::get('/admin/products/{id}/edit', App\Http\Controllers\Admin\AdminProductController::class . '@edit')->name('admin.product.edit');
-Route::put('/admin/products/{id}/update', App\Http\Controllers\Admin\AdminProductController::class . '@update')->name('admin.product.update');
-
+Route::middleware('admin')->prefix('/admin')->group(function () {
+    Route::get('/', App\Http\Controllers\Admin\AdminHomeController::class . '@index')->name('admin.home.index');
+    Route::get('/products', App\Http\Controllers\Admin\AdminProductController::class . '@index')->name('admin.products.index');
+    Route::get('/products/create', App\Http\Controllers\Admin\AdminProductController::class . '@create')->name('admin.products.create');
+    Route::post('/products/store', App\Http\Controllers\Admin\AdminProductController::class . '@store')->name('admin.products.store');
+    Route::get('/products/show/{id}', App\Http\Controllers\Admin\AdminProductController::class . '@show')->name('admin.products.show');
+    Route::post('/products/{id}/delete', App\Http\Controllers\Admin\AdminProductController::class . '@delete')->name('admin.product.delete');
+    Route::get('/products/{id}/edit', App\Http\Controllers\Admin\AdminProductController::class . '@edit')->name('admin.product.edit');
+    Route::put('/products/{id}/update', App\Http\Controllers\Admin\AdminProductController::class . '@update')->name('admin.product.update');
+    Route::get('/roles', App\Http\Controllers\RoleController::class . '@index')->name('roles.index');
+    Route::get('/users', App\Http\Controllers\RoleController::class . '@users')->name('users.index');
+});
 
 Route::get('/post', App\Http\Controllers\PostsController::class . '@index')->name('post.list');
 Route::get('/post/insert', App\Http\Controllers\PostsController::class . '@insert')->name('post.insert');
@@ -61,6 +64,8 @@ Route::get('/post/find/{id}', App\Http\Controllers\PostsController::class . '@sh
 Route::get('/post/soft_delete/{id}', App\Http\Controllers\PostsController::class . '@softDelete')->name('post.soft_delete');
 Route::get('/post/read_soft_deletes', App\Http\Controllers\PostsController::class . '@readSoftDeletes')->name('post.read_soft_delets');
 Route::get('/post/restore/{id}', App\Http\Controllers\PostsController::class . '@restore')->name('post.restore');
+Route::get('/postCategories', App\Http\Controllers\PostCategoryController::class . '@index')->name('post.categories');
+// 
 // Route::get('/products/{id}', App\Http\Controllers\ProductController::class . '@show')->name('products.show');
 
 // cart controller-view routing
@@ -81,3 +86,7 @@ Route::get('/home/employee-list', '\App\Http\Controllers\HomeController@employye
 Route::get('/home/new-menu', '\App\Http\Controllers\HomeController@addNewMenu');
 // Route::get('about','');
 Route::resource('/test', 'App\Http\Controllers\TestController');
+
+Auth::routes();
+
+// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
