@@ -79,7 +79,7 @@ class CartController extends Controller
             $viewData["title"] = 'Purchase - Online Store';
             $viewData['subtitle'] = 'Purchase Status';
             $viewData['order'] = $order;
-            return view('cart.purchase')->with('viewData', $viewData);
+            return view('cart.create')->with('viewData', $viewData);
         } else {
             return redirect()->route('cart.index');
         }
