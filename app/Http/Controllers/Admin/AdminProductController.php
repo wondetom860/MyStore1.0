@@ -49,10 +49,14 @@ class AdminProductController extends Controller
         $product->save();
         if ($request->hasFile('image')) {
             $imageName = $product->id . '_' . $request->file('image')->getFilename() . "_" . date('Y_m_d_h_i') . "." . $request->file('image')->extension();
-            Storage::disk('public')->put($imageName, file_get_contents($request->file('image')->getRealPath()));
+            Storage::disk('public')->put(
+                $imageName, 
+                file_get_contents($request->file('image')->getRealPath())
+            );
             $product->image = $imageName;
             $product->save();
         }
+        notify()->success('Product Created Successfully', 'Creation Success');
         return redirect()->route('admin.products.index');
     }
 
@@ -96,20 +100,25 @@ class AdminProductController extends Controller
         $product->name = $request->name;
         $product->description = $request->description;
         $product->price = $request->price;
-        $product->image = ("image");
+        // $product->image = ("image");
         // $product->save();
         if ($request->hasFile('image')) {
             $imageName = $product->id . '_' . $request->file('image')->getFilename() . "_" . date('Y_m_d_h_i') . "." . $request->file('image')->extension();
-            Storage::disk('public')->put($imageName, file_get_contents($request->file('image')->getRealPath()));
+            Storage::disk('public')->put(
+                $imageName, 
+                file_get_contents($request->file('image')->getRealPath())
+            );
             $product->image = $imageName;
         }
         $product->save();
+        notify()->success('Product Updateted Successfully', 'Update Success');
         return redirect()->route('admin.products.index');
     }
 
     public function delete($id)
     {
         Product::destroy($id);
+        notify()->success('Product Deleted Successfully', 'Delete Success');
         return back();
     }
 

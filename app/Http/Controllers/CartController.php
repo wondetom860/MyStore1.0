@@ -3,6 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Product;
+use App\Models\Item;
+use App\Models\Order;
+use Illuminate\Support\Facades\Auth;
+// use App\Models\Product;
 
 class CartController extends Controller
 {
@@ -11,11 +16,73 @@ class CartController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
-        $viewData['title'] = 'Cart Item List';
+        $total = 0;
+        $productsInCart = [];
+        $productsInSession = $request->session()->get("products");
+        if($productsInSession) {
+            $productsInCart = Product::findMany(array_keys($productsInSession));
+            $total = Product::sumPriceByQuantities($productsInCart,$productsInSession);
+        }
+
+        $viewData['title'] = 'Cart Online store';
+        $viewData['subtitle'] = "Shopping cart";
+        $viewData["total"] = $total;
+        $viewData["products"] = $productsInCart;
+
         return view("cart.index")->with('viewData',$viewData);
+    }
+
+    public function add(Request $request, $id){
+        $products = $request->session()->get('products');
+        $products[$id] = $request->input('quantity');
+        $request->session()->put('products',$products);
+        notify()->success('Item added to your cart','Cart Item Added');
+        return redirect()->route('cart.index');
+    }
+
+    public function delete(Request $request){
+        $request->session()->forget('products');
+        return back();
+    }
+
+    public function purchase(Request $request)
+    {
+        $productsInSession = $request->session()->get("products");
+        if ($productsInSession) {
+            $order = new Order();
+            $order->user_id = Auth::user()->id;
+            $order->total = 0;
+            $order->save();
+            $total = 0;
+            $productsInCart = Product::findMany(array_keys($productsInSession));
+            foreach ($productsInCart as $product) {
+                $quantity = $productsInSession[$product->id];
+                $item = new Item();
+                $item->quantity = $quantity;
+                $item->price = $product->price;
+                $item->product_id = $product->id;
+                $item->order_id = $order->id;
+                $item->save();
+                $total += ($product->price * $quantity);
+            }
+
+            $order->total = $total;
+            $order->save();
+            $newBalance = Auth::user()->balance - $order->total;
+            Auth::user()->balance = $newBalance;
+            Auth::user()->save();
+
+            $request->session()->forget("products");
+            $viewData = [];
+            $viewData["title"] = 'Purchase - Online Store';
+            $viewData['subtitle'] = 'Purchase Status';
+            $viewData['order'] = $order;
+            return view('cart.purchase')->with('viewData', $viewData);
+        } else {
+            return redirect()->route('cart.index');
+        }
     }
 
     /**

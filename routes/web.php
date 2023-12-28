@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', App\Http\Controllers\HomeController::class . '@index')->name('home.index');
+Route::get('/admin', App\Http\Controllers\Admin\AdminHomeController::class . '@index')->name('admin.home.index');
 
 // Route::get('/about', function () {
 //     return redirect('/posts');
@@ -43,8 +44,19 @@ Route::get('/home/update', App\Http\Controllers\HomeController::class . '@update
 Route::get('/products', App\Http\Controllers\ProductController::class . '@index')->name('products.index');
 Route::get('/products/{id}', App\Http\Controllers\ProductController::class . '@show')->name('products.show');
 
-Route::middleware('admin')->prefix('/admin')->group(function () {
-    Route::get('/', App\Http\Controllers\Admin\AdminHomeController::class . '@index')->name('admin.home.index');
+// only for authenticated users
+Route::middleware('auth')->group(function () {
+    Route::get('/cart/purchase', App\Http\Controllers\CartController::class . '@purchase')->name('cart.purchase');
+    Route::get('/my-account/orders', App\Http\Controllers\MyAccountController::class . '@orders')->name('myaccount.orders');
+});
+
+Route::middleware('hasrole:superAdmin')->group(function () {
+    Route::get('/roles', App\Http\Controllers\RoleController::class . '@index')->name('roles.index');
+    Route::get('/users', App\Http\Controllers\RoleController::class . '@users')->name('users.index');
+});
+
+Route::middleware('hasrole:admin,superAdmin')->prefix('/admin')->group(function () {
+    Route::get('', App\Http\Controllers\Admin\AdminHomeController::class . '@index')->name('admin.home.index');
     Route::get('/products', App\Http\Controllers\Admin\AdminProductController::class . '@index')->name('admin.products.index');
     Route::get('/products/create', App\Http\Controllers\Admin\AdminProductController::class . '@create')->name('admin.products.create');
     Route::post('/products/store', App\Http\Controllers\Admin\AdminProductController::class . '@store')->name('admin.products.store');
@@ -52,8 +64,8 @@ Route::middleware('admin')->prefix('/admin')->group(function () {
     Route::post('/products/{id}/delete', App\Http\Controllers\Admin\AdminProductController::class . '@delete')->name('admin.product.delete');
     Route::get('/products/{id}/edit', App\Http\Controllers\Admin\AdminProductController::class . '@edit')->name('admin.product.edit');
     Route::put('/products/{id}/update', App\Http\Controllers\Admin\AdminProductController::class . '@update')->name('admin.product.update');
-    Route::get('/roles', App\Http\Controllers\RoleController::class . '@index')->name('roles.index');
-    Route::get('/users', App\Http\Controllers\RoleController::class . '@users')->name('users.index');
+    // Route::get('/roles', App\Http\Controllers\RoleController::class . '@index')->name('roles.index');
+    // Route::get('/users', App\Http\Controllers\RoleController::class . '@users')->name('users.index');
 });
 
 Route::get('/post', App\Http\Controllers\PostsController::class . '@index')->name('post.list');
@@ -71,10 +83,12 @@ Route::get('/postCategories', App\Http\Controllers\PostCategoryController::class
 // cart controller-view routing
 Route::get('/cart', App\Http\Controllers\CartController::class . '@index')->name('cart.index');
 Route::get('/cart/{id}', App\Http\Controllers\CartController::class . '@show')->name('cart.show');
+Route::post('/cart/add/{id}', App\Http\Controllers\CartController::class . '@add')->name('cart.add');
+Route::get('/cart/delete', App\Http\Controllers\CartController::class . '@delete')->name('cart.delete');
 
-Route::get('/test', function () {
-    return view('test');
-});
+// Route::get('/test', function () {
+//     return view('test');
+// });
 
 
 Route::resource('/test', 'App\Http\Controllers\TestController');
@@ -89,4 +103,4 @@ Route::resource('/test', 'App\Http\Controllers\TestController');
 
 Auth::routes();
 
-// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+// Route::get('/test', App\Http\Controllers\Admin\AdminHomeController::class . '@index')->middleware('hasrole:supperAdmin,admin')->name('admin.test');

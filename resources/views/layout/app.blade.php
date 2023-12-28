@@ -30,9 +30,14 @@
                         <a href="{{ route('login') }}" class="nav-link active">Login</a>
                         <a href="{{ route('register') }}" class="nav-link active">Register</a>
                     @else
+                        @if (Auth::user()->role == 'admin')
+                            <a href="{{ route('admin.home.index') }}" class="nav-link active">Dashboard</a>
+                        @endif
+                        {{-- logged In user --}}
                         <form action="{{ route('logout') }}" id="logout" method="POST">
-                            <a role="button" class="nav-link active"
+                            <a role="button" class="nav-link active text-center"
                                 onclick="document.getElementById('logout').submit();">Logout</a>
+                            <span class="fs-6 text-white d-block">{{ Auth::user()->email }}</span>
                             @csrf
                         </form>
                     @endguest

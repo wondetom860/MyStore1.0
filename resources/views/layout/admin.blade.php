@@ -21,11 +21,22 @@
                     Online Store
                 </span>
             </div>
-            <div class="col-lg-10 col-md-9 col-sm-0">
+            <div class="col-lg-10 col-md-9 col-sm-0 p-0 text-end">
                 {{-- <span class="fs-3 text-white">Online Store</span> --}}
-                <nav class="p-3 shadow text-end">
-                    <span class="profile-font">Admin</span>
-                    <img class="img-profile rounded-circle" src="{{ asset('/images/undraw_image.png') }}">
+                <nav class="p-2 shadow text-end">
+                    @guest
+                        <a href="{{ route('login') }}" class="nav-link active">Login</a>
+                        <a href="{{ route('register') }}" class="nav-link active">Register</a>
+                    @else
+                        <img class="img-profile rounded-circle float-right" src="{{ asset('/images/undraw_image.png') }}"
+                            style="float: right;" alt="">
+                            <figcaption><span class="fs-3">Admin</span></figcaption>
+                        <form action="{{ route('logout') }}" id="logout" method="POST">
+                            <a role="button" class="nav-link active"
+                                onclick="document.getElementById('logout').submit();">Logout</a>
+                            @csrf
+                        </form>
+                    @endguest
                 </nav>
             </div>
         </div>

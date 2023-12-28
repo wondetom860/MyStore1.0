@@ -6,21 +6,22 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class AdminAuthMiddleware
+class HasRoleMiddleware
 {
     /**
      * Handle an incoming request.
-     *
+     * @var \App\Models\User $user
      * @param  \Illuminate\Http\Request  $request
      * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
      * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
      */
-    public function handle(Request $request, Closure $next)
+    public function handle(Request $request, Closure $next, ...$roles)
     {
-        if (Auth::user() && Auth::user()->isAdmin()) {
-            return $next($request);
-        } else {
-            return redirect()->route('home.index');
+        foreach ($roles as $role) {
+            if (Auth::user() && Auth::user()->hasRole($role)) {
+                return $next($request);
+            }
         }
+        return redirect()->route('home.index');
     }
 }

@@ -31,14 +31,18 @@
                         <a href="{{ route('login') }}" class="nav-link active">Login</a>
                         <a href="{{ route('register') }}" class="nav-link active">Register</a>
                     @else
-                        @if (Auth::user()->role == 'admin')
+                        <a href="{{ route('myaccount.orders') }}" class="nav-link active">My Orders</a>
+                        @if (Auth::user()->isAdmin())
                             <a href="{{ route('admin.home.index') }}" class="nav-link active">Dashboard</a>
+                        @endif
+                        @if (Auth::user()->isSuperAdmin())
+                            <a href="{{ route('roles.index') }}" class="nav-link active text-warning">Roles</a>
+                            <a href="{{ route('users.index') }}" class="nav-link active text-warning">Users</a>
                         @endif
                         {{-- logged In user --}}
                         <form action="{{ route('logout') }}" id="logout" method="POST">
-                            <a role="button" class="nav-link active text-center"
-                                onclick="document.getElementById('logout').submit();">Logout</a>
-                            <span class="fs-6 text-white d-block">{{ Auth::user()->email }}</span>
+                            <a title="Logout" role="button" class="nav-link active text-center"
+                                onclick="document.getElementById('logout').submit();">Logout({{ Auth::user()->name }})</a>
                             @csrf
                         </form>
                     @endguest
