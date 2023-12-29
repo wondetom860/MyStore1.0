@@ -20,4 +20,16 @@ class Post extends Model
     public function sealData(){
         $this->sig_data = md5(serialize((object)$this));
     }
+
+    public function postImage(){
+        return $this->hasOne(PostImage::class);
+    }
+
+    public function comments(){
+        return $this->hasMany(Comment::class);
+    }
+
+    public function categories(){
+        return $this->belongsToMany(Category::class);
+    }
 }

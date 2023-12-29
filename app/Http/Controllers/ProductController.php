@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Item;
+use App\Models\Order;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
@@ -37,9 +40,11 @@ class ProductController extends Controller
     //     ],
     // ];
 
-    public function insert(){
+    
+
+    public function insert()
+    {
         $model = new Product();
-        
     }
     // public static function find($id)
     // { // this function should throw NotFoundException
@@ -91,7 +96,7 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        $product = Product::find($id);//findOrFail
+        $product = Product::find($id); //findOrFail
         if (is_null($product)) {
             return view('error')
                 ->with('title', 'Item not found')
