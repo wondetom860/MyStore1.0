@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+// use \App\Models\
 
 class Order extends Model
 {
@@ -14,6 +15,10 @@ class Order extends Model
             "total"=> "required|numeric",
             "user_id"=> "required|exists:users,id",
         ]);
+    }
+
+    public function items(){
+        return $this->hasMany(Item::class);
     }
 
     public function user(){

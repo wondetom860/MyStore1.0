@@ -7,6 +7,7 @@ use App\Models\Product;
 use App\Models\Item;
 use App\Models\Order;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 // use App\Models\Product;
 
 class CartController extends Controller
@@ -42,9 +43,16 @@ class CartController extends Controller
         return redirect()->route('cart.index');
     }
 
-    public function delete(Request $request){
-        $request->session()->forget('products');
-        return back();
+    public function deleteMe2(){
+        dd('Deleting,....');
+    }
+
+    public function deleteme(){
+        // dd($request);
+        // $request->session()->forget('products');
+        Session::forget("products");
+        notify()->success("Cart Items Removed","Cart Items Removed");
+        return redirect()->route('products.index');
     }
 
     public function purchase(Request $request)
@@ -70,9 +78,14 @@ class CartController extends Controller
 
             $order->total = $total;
             $order->save();
-            $newBalance = Auth::user()->balance - $order->total;
-            Auth::user()->balance = $newBalance;
-            Auth::user()->save();
+            $user = \App\Models\User::find(Auth::user()->id);
+            if($user->balance < $order->total) {
+                notify()->warning("Your balance is insufficient for purchase",'Insufficient Balance');
+                return redirect()->route('cart.index');
+            }
+            $newBalance = $user->balance - $order->total;
+            $user->balance = $newBalance;
+            $user->save();
 
             $request->session()->forget("products");
             $viewData = [];

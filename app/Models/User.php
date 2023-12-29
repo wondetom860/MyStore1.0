@@ -10,7 +10,7 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -43,24 +43,28 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function isAdmin()
-    {
-        return $this->hasRole('admin');
-    }
+    // public function isAdmin()
+    // {
+    //     return $this->hasRole('admin');
+    // }
 
-    public function isSuperAdmin(){
-        return $this->hasRole('superAdmin');
-    }
-    public function hasRole($role)
-    {
-        return $this->roles()
-            ->where('name', '=', $role)
-            ->get()
-            ->first() != null;
-    }
+    // public function isSuperAdmin(){
+    //     return $this->hasRole('superAdmin');
+    // }
+    // public function hasRole($role)
+    // {
+    //     return $this->roles()
+    //         ->where('name', '=', $role)
+    //         ->get()
+    //         ->first() != null;
+    // }
 
-    public function roles()
-    {
-        return $this->belongsToMany(Role::class);
+    // public function roles()
+    // {
+    //     return $this->belongsToMany(Role::class);
+    // }
+
+    public function orders(){
+        return $this->hasMany(Order::class);
     }
 }
