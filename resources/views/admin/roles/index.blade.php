@@ -1,34 +1,49 @@
-@extends('layout.mystore')
-@section('title')
-    Roles and Assignments
-@endsection
+@extends('layout.admin')
 @section('content')
-    <div class="container info py-2">
-        <h3>Roles</h3>
-        <div class="row">
-            @foreach ($roles as $role)
-                <div class="col-lg-4 col-md-4 col-sm-12">
-                    <div class="card card-default m-2">
-                        <h3 class="card-header">{{ $role->name }} <br><span style="font-size: 10pt;"><i>
-                                    {{ $role->description }}
-                                </i></span></h3>
-                        <div class="card-body">
-                            @if (($users = $role->users) !== null)
-                                @foreach ($users as $user)
-                                    <h4 class="bg-primary">{{ $user->id }}.{{ $user->email }}</h4>
-                                    <p class="float-right">${{ $user->balance }}</p>
-                                    CheckForRole: <?= $user->hasRole($role->name) ?>
-                                    <hr>
-                                @endforeach
-                            @else
-                            @endif
-                        </div>
-                        <div class="card-footer">
-                            <span><i>Users and roles</i></span>
-                        </div>
-                    </div>
-                </div>
-            @endforeach
+    <div class="row">
+        <div class="col-lg-12 margin-tb">
+            <div class="pull-left">
+                <h2>Role Management</h2>
+            </div>
+            <div class="pull-right">
+                @can('role-create')
+                    <a class="btn btn-success" href="{{ route('roles.create') }}"> Create New Role</a>
+                @endcan
+            </div>
         </div>
     </div>
+    @if ($message = Session::get('success'))
+        <div class="alert alert-success">
+            <p>{{ $message }}</p>
+        </div>
+    @endif
+    <table class="table table-bordered">
+        <tr>
+            <th>No</th>
+            <th>Name</th>
+            <th width="280px">Action</th>
+        </tr>
+        @foreach ($roles as $key => $role)
+            <tr>
+                <td>{{ ++$i }}</td>
+                <td>{{ $role->name }}</td>
+                <td>
+                    <a class="btn btn-info" href="{{ route('roles.show', $role->id) }}">Show</a>
+                    @can('role-edit')
+                        <a class="btn btn-primary" href="{{ route('roles.edit', $role->id) }}">Edit</a>
+                    @endcan
+                    @can('role-delete')
+                        <form style="display:inline" action="{{ route('roles.destroy', $role->id) }}" method="POST">
+                            @csrf
+                            @method('DELETE')
+                            <button class="btn btn-danger">
+                                <i class="bi-trash"></i>
+                            </button>
+                        </form>
+                    @endcan
+                </td>
+            </tr>
+        @endforeach
+    </table>
+    {!! $roles->render() !!}
 @endsection

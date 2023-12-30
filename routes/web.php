@@ -49,8 +49,8 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::middleware('auth')->group(function () {
-    Route::resource('/roles', App\Http\Controllers\Admin\AdminRoleController::class);
-    Route::resource('/users', App\Http\Controllers\Admin\AdminUserController::class);
+    Route::resource('/roles', App\Http\Controllers\Admin\RoleController::class);
+    Route::resource('/users', App\Http\Controllers\Admin\UserController::class);
 });
 // Route::middleware('hasrole:superAdmin')->group(function () {
 //     Route::get('/roles', App\Http\Controllers\RoleController::class . '@index')->name('roles.index');
@@ -66,7 +66,7 @@ Route::middleware('auth')->prefix('/admin')->group(function () {
     Route::post('/products/{id}/delete', App\Http\Controllers\Admin\AdminProductController::class . '@delete')->name('admin.product.delete');
     Route::get('/products/{id}/edit', App\Http\Controllers\Admin\AdminProductController::class . '@edit')->name('admin.product.edit');
     Route::put('/products/{id}/update', App\Http\Controllers\Admin\AdminProductController::class . '@update')->name('admin.product.update');
-    // Route::get('/roles', App\Http\Controllers\RoleController::class . '@index')->name('roles.index');
+    Route::get('/orders', App\Http\Controllers\OrderController::class . '@index')->name('orders.index');
     // Route::get('/users', App\Http\Controllers\RoleController::class . '@users')->name('users.index');
 });
 

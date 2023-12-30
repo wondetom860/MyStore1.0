@@ -5,6 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     @notifyCss
+    {{-- <link href="/css/bootstrap.min.css" rel="stylesheet" /> --}}
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
         crossorigin="anonymous" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
@@ -17,9 +18,7 @@
         <div class="row bg-success">
             {{-- header and NavBar --}}
             <div class="col-lg-2 col-md-3 col-sm-0 text-white">
-                <span class="fs-2">
-                    Online Store
-                </span>
+                <a class="navbar-brand text-white fs-4" href="/">{{ __('Online Store') }}</a>
             </div>
             <div class="col-lg-10 col-md-9 col-sm-0 p-0 text-end">
                 {{-- <span class="fs-3 text-white">Online Store</span> --}}
@@ -30,10 +29,9 @@
                     @else
                         <img class="img-profile rounded-circle float-right" src="{{ asset('/images/undraw_image.png') }}"
                             style="float: right;" alt="">
-                            <figcaption><span class="fs-3">Admin</span></figcaption>
                         <form action="{{ route('logout') }}" id="logout" method="POST">
-                            <a role="button" class="nav-link active"
-                                onclick="document.getElementById('logout').submit();">Logout</a>
+                            <a role="button" class="nav-link active text-white"
+                                onclick="document.getElementById('logout').submit();">Logout({{ Auth::user()->email }})</a>
                             @csrf
                         </form>
                     @endguest
@@ -51,12 +49,23 @@
                 </a>
                 <hr />
                 <ul class="nav flex-column sidebar">
-                    <li><a href="{{ route('admin.home.index') }}" class="nav-link text-white">- Admin - Home</a></li>
-                    <li><a href="{{ route('admin.products.index') }}" class="nav-link text-white">- Admin - Products</a>
-                    </li>
+                    <li><a href="{{ route('admin.home.index') }}" class="nav-link text-white">Home</a></li>
+                    @can('product-list')
+                        <li><a href="{{ route('admin.products.index') }}" class="nav-link text-white">Products</a>
+                        </li>
+                    @endcan
+                    @can('user-list')
+                        <li><a class="nav-link text-white" href="{{ route('users.index') }}">Manage Users</a></li>
+                    @endcan
+                    @can('role-list')
+                        <li><a class="nav-link text-white" href="{{ route('roles.index') }}">Manage Role</a></li>
+                    @endcan
+                    @if (Auth::user()->isAdmin())
+                        <a class="nav-link text-white" href="{{ route('orders.index') }}">{{ __('Orders') }}</a>
+                    @endif
                     <li>
-                        <a href="{{ route('admin.home.index') }}" class="mt-2 btn bg-primary text-white">Go back to the
-                            home page</a>
+                        <a href="{{ route('home.index') }}" class="mt-2 btn bg-primary text-white">Go back to the home
+                            page</a>
                     </li>
                 </ul>
                 <br><br><br>
@@ -82,7 +91,7 @@
                         </div>
                     @endif
                 </div>
-                <div class="container-fluid">
+                <div class="container-fluid" style="margin-bottom: 15%;">
                     @yield('content')
                 </div>
             </div>
@@ -93,17 +102,20 @@
             {{-- footer location --}}
             <div class="copyright py-4 text-center text-white">
                 <div class="container">
-                    <small>
+                    <small class="copyright">
                         Copyright - <a class="text-reset fw-bold text-decoration-none" target="_blank"
                             href="https://twitter.com/user">
-                            XYZ Company
-                        </a>
+                            Wonde Tom
+                        </a> - <b>Taylak Media</b>
                     </small>
+                    @include('partials.language_switcher')
                 </div>
             </div>
         </div>
     </div>
+    </div>
     {{-- include JS file here --}}
+    {{-- <script src="/css/bootstrap.min.js"></script> --}}
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous">
     </script>
     @notifyJs

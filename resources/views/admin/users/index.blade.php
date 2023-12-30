@@ -1,36 +1,55 @@
-@extends('layout.mystore')
-@section('title')
-    Roles and Assignments
-@endsection
+@extends('layout.admin')
 @section('content')
-    <div class="container info py-2">
-        <h3>Users</h3>
-        <div class="row">
-            @foreach ($users as $user)
-                <div class="col-lg-4 col-md-4 col-sm-12">
-                    <div class="card card-default m-2">
-                        <h3 class="card-header">{{ $user->name }} <br><span style="font-size: 10pt;"><i>
-                                    {{ $user->email }}
-                                </i></span></h3>
-                        <div class="card-body">
-                            @if (($roles = $user->roles) !== null)
-                                <legend>Has Roles: </legend>
-                                <ul>
-                                    @foreach ($roles as $role)
-                                        <li>
-                                            {{ $role->name }}
-                                        </li>
-                                    @endforeach
-                                </ul>
-                            @else
-                            @endif
-                        </div>
-                        <div class="card-footer">
-                            <span><i>Users and roles</i></span>
-                        </div>
-                    </div>
-                </div>
-            @endforeach
+    <div class="row">
+        <div class="col-lg-12 margin-tb">
+            <div class="pull-left">
+                <h2>Users Management</h2>
+            </div>
+            <div class="pull-right">
+                <a class="btn btn-success" href="{{ route('users.create') }}"> Create New User</a>
+            </div>
         </div>
     </div>
+
+    @if ($message = Session::get('success'))
+        <div class="alert alert-success">
+            <p>{{ $message }}</p>
+        </div>
+    @endif
+
+    <table class="table table-bordered">
+        <tr>
+            <th>No</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Roles</th>
+            <th width="280px">Action</th>
+        </tr>
+        @foreach ($data as $key => $user)
+            <tr>
+                <td>{{ ++$i }}</td>
+                <td>{{ $user->name }}</td>
+                <td>{{ $user->email }}</td>
+                <td>
+                    @if (!empty($user->getRoleNames()))
+                        @foreach ($user->getRoleNames() as $v)
+                            <label class="badge rounded-pill bg-success">{{ $v }}</label>
+                        @endforeach
+                    @endif
+                </td>
+                <td>
+                    <a class="btn btn-info" href="{{ route('users.show', $user->id) }}">Show</a>
+                    <a class="btn btn-primary" href="{{ route('users.edit', $user->id) }}">Edit</a>
+                    <form style="display:inline" action="{{ route('users.destroy', $user->id) }}" method="POST">
+                        @csrf
+                        @method('DELETE')
+                        <button class="btn btn-danger">
+                            <i class="bi-trash"></i>
+                        </button>
+                    </form>
+                </td>
+            </tr>
+        @endforeach
+    </table>
+    {!! $data->render() !!}
 @endsection

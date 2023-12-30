@@ -7,6 +7,8 @@
     @notifyCss
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
         crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+    {{-- <link href="/css/bootstrap.min.css" rel="stylesheet" /> --}}
     <title>Online Store : @yield('title', '')</title>
     <link rel="stylesheet" href="{{ asset('/css/app.css') }}">
 </head>
@@ -74,8 +76,10 @@
             @include('partials.language_switcher')
         </div>
     </div>
+    </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous">
     </script>
+    {{-- <script src="/css/bootstrap.min.js"></script> --}}
     @notifyJs
     @include('notify::components.notify')
 </body>
