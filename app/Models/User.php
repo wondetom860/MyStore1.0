@@ -52,7 +52,7 @@ class User extends Authenticatable
 
     public function isSuperAdmin()
     {
-        return $this->hasRole("Super Admin");
+        return $this->hasRole("SuperAdmin");
     }
     // public function hasRole($role)
     // {

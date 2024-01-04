@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -17,7 +18,8 @@ class AdminAuthMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        if (Auth::user() && Auth::user()->isAdmin()) {
+        $user = User::find(Auth::user()->id);
+        if ($user && $user->isAdmin()) {
             return $next($request);
         } else {
             return redirect()->route('home.index');
